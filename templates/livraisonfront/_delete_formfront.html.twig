@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_livraisonfront_delete', {'id': livraison.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ livraison.id) }}">
+    <button class="genric-btn info-border circle arrow">Delete<span class="lnr lnr-arrow-right"></button>
+</form>

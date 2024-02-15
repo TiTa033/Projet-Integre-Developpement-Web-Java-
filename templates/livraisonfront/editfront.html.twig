@@ -1,0 +1,30 @@
+{% extends 'BaseFrontOffice.html.twig' %}
+
+{% block title %}Delivery Update{% endblock %}
+
+{% block front %}
+   <section class="confirmation_part padding_top">
+    
+   <div class="container">
+        <div class="row">
+         <div class="col-lg-12">
+          <div class="order_details_iner">
+          <a href="{{ path('app_livraisonfront_index') }}" class="genric-btn info-border circle">back to list</a>
+           <br>
+           <br>
+           <h1> Delivery Edit</h1>
+  
+                              <br>
+                            {{ include('livraisonfront/_formfront.html.twig', {'button_label': 'Update'}) }}
+                            
+                            {{ include('livraisonfront/_delete_formfront.html.twig') }}
+                            
+ </div>
+         </div>
+    </div> 
+     </div>
+       
+    
+</section>
+   
+{% endblock %}

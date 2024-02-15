@@ -1,0 +1,73 @@
+{% extends 'BaseFrontOffice.html.twig' %}
+
+
+
+{% block front %}
+    <section class="confirmation_part padding_top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+    <a href="{{ path('app_livraisonfront_index') }}" class="genric-btn primary-border circle arrow">Back To List<span class="lnr lnr-arrow-right"></span></a>
+    
+     <br>
+    <br>
+    <h1>Delivery Order Details</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ livraison.id }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ livraison.Statut }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ livraison.Adresse }}</td>
+            </tr>
+            <tr>
+                <th>Cout</th>
+                <td>{{ livraison.Cout }}</td>
+            </tr>
+            <tr>
+                <th>Methode</th>
+                <td>{{ livraison.Methode }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ livraison.Date }}</td>
+            </tr>
+            <tr>
+                <th>Commentaires</th>
+                <td>{{ livraison.Commentaires }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    
+      
+         
+<div class="btn-group mb-3" role="group" aria-label="Basic example">
+                           
+                             
+                            <a href="{{ path('app_livraisonfront_edit', {'id': livraison.id}) }}" class="genric-btn info-border circle">Edit</a>
+                           
+                        </div>
+                       
+                          {{ include('livraisonfront/_delete_formfront.html.twig') }}
+ 
+     <br>
+    <br>
+  </div>
+      </div>
+  </div>
+   <br>
+    
+    
+</section>
+ 
+ 
+ {% endblock %}
