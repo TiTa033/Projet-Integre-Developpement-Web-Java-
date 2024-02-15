@@ -1,0 +1,12 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}New Forum{% endblock %}
+
+{% block tableforum %}
+    <h1>Create new Forum</h1>
+
+    {{ include('forum/_form.html.twig') }}
+
+    <a href="{{ path('app_forum_index') }}"class="btn btn-secondary dropdown-toggle show" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">back to list</a>
+
+{% endblock %}

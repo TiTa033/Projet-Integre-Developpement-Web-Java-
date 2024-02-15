@@ -1,0 +1,24 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Forum index{% endblock %}
+
+{% block fronttable %}
+    <h1>Forum index</h1>
+    <a href="{{ path('app_forumfront_new') }}" class="genric-btn primary circle">Create new</a>
+
+    {% for forum in forums %}
+        <div class="forum-entry">
+           
+            <p>Name: {{ forum.name }}</p>
+            <p>Content: {{ forum.content }}</p>
+            <p>Created At: {{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+            <p>Updated At: {{ forum.updatedAt ? forum.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
+            <div class="actions">
+                <a href="{{ path('app_forumfront_show', {'id': forum.id}) }}" class="genric-btn primary-border circle">Show</a>
+                <a href="{{ path('app_forumfront_edit', {'id': forum.id}) }}" class="genric-btn primary-border circle">Edit</a>
+            </div>
+        </div>
+    {% else %}
+        <p>No records found</p>
+    {% endfor %}
+{% endblock %}

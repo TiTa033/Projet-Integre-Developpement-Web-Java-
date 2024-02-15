@@ -1,0 +1,7 @@
+
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.name, 'Name') }}
+        {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+{{ form_end(form) }}

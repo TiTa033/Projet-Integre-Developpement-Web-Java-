@@ -1,0 +1,37 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Forum{% endblock %}
+
+{% block fronttable %}
+    <h1>Forum</h1>
+
+    <table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ forum.id }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>{{ forum.content }}</td>
+        </tr>
+        <tr>
+            <th>Timestamp</th>
+            <td>
+                {% if forum.createdAt %}
+                    Created: {{ forum.createdAt|date('Y-m-d H:i:s') }}<br>
+                {% endif %}
+                {% if forum.updatedAt %}
+                    Updated: {{ forum.updatedAt|date('Y-m-d H:i:s') }}
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <a href="{{ path('app_forumfront_index') }}">back to list</a>
+
+    <a href="{{ path('app_forumfront_edit', {'id': forum.id}) }}">edit</a>
+
+    {{ include('forumfront/_deletefront_form.html.twig') }}
+{% endblock %}

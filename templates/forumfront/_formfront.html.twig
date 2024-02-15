@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+<button type="submit" class="genric-btn primary circle">Submit</button>
+    <div class="mb-3">
+        {{ form_label(form.name, 'Name') }}
+        {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+        {% if form_errors(form.name) %}
+            <div class="alert alert-danger">{{ form_errors(form.name)|join(', ')|raw }}</div>
+        {% endif %}
+        
+    </div>
+
+  
+{{ form_end(form) }}

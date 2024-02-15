@@ -1,0 +1,17 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Edit Forum{% endblock %}
+
+{% block fronttable %}
+    <h1>Edit Forum</h1>
+
+   
+    <a href="{{ path('app_forumfront_index') }}" class="genric-btn primary circle">Back to list</a>
+<br>
+<br>
+ 
+    {{ include('forumfront/_deletefront_form.html.twig') }}
+<br>
+<br>
+    {{ include('forumfront/_formfront.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}
