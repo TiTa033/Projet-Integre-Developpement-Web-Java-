@@ -1,0 +1,52 @@
+{% extends 'basefrontoffice.html.twig' %}
+
+
+
+{% block product %}
+
+    <table class="table">
+        <tbody>
+         {% if annonce.imageFilename %}
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/images/' ~ annonce.imageFilename) }}" alt="Annonce Image"></td>
+            </tr>
+            {% endif %}
+
+            <tr>
+                <th>Title</th>
+                <td>{{ annonce.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ annonce.description }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ annonce.categorie }}</td>
+            </tr>
+            <tr>
+                <th>Condition</th>
+                <td>{{ annonce.etat }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ annonce.localisation }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ annonce.datePub ? annonce.datePub|date('Y-m-d H:i') : '' }}</td>
+            </tr>
+           
+        </tbody>
+    </table>
+    <table>
+<tr>
+    <td><a href="{{ path('app_annonce_indexfront') }}" class="btn_3" style="width: 160px" >show all </a></td>
+     <td>      </td>
+    <td><a href="{{ path('app_annonce_editfront', {'id': annonce.id}) }}" class="btn_3">Edit</a></td>
+     <td>      </td>
+    <td>{{ include('annonce_front/_delete_formfront.html.twig') }}</td>
+</tr>
+    </table>
+{% endblock %}
