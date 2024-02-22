@@ -1,0 +1,63 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+<div class="mt-10">
+    {{ form_label(form.titre, 'Titre') }}
+    {{ form_widget(form.titre, { 'attr': {'class': 'single-input'} }) }}
+    {% if form_errors(form.titre) %}
+    <div class="alert alert-danger">{{ form_errors(form.titre) }}</div>
+    {% endif %}
+</div>
+<div class="mt-10">
+    {{ form_label(form.description, 'Description') }}
+    {{ form_widget(form.description, { 'attr': {'class': 'single-textarea'} }) }}
+    {% if form_errors(form.description) %}
+    <div class="alert alert-danger">{{ form_errors(form.description) }}</div>
+    {% endif %}
+</div>
+<div class="mt-10">
+    {{ form_label(form.categorie, 'Categorie') }}
+    {{ form_widget(form.categorie, { 'attr': {'class': 'single-input','style': 'height: 45px;'} }) }}
+    {% if form_errors(form.categorie) %}
+    <div class="alert alert-danger">{{ form_errors(form.categorie) }}</div>
+    {% endif %}
+</div>
+<div class="mt-10">
+    {{ form_label(form.etat, 'Etat') }}
+    {{ form_widget(form.etat, { 'attr': {'class': 'single-input','style': 'height: 45px;'} }) }}
+    {% if form_errors(form.etat) %}
+    <div class="alert alert-danger">{{ form_errors(form.etat) }}</div>
+    {% endif %}
+</div>
+<div class="mt-10">
+    {{ form_label(form.localisation, 'Localisation') }}
+    {{ form_widget(form.localisation, { 'attr': {'class': 'single-input'} }) }}
+    {% if form_errors(form.localisation) %}
+    <div class="alert alert-danger">{{ form_errors(form.localisation) }}</div>
+    {% endif %}
+    </div>
+<div class="mt-10">
+    {{ form_label(form.images, 'Images (JPG, PNG or GIF files)') }}
+    {{ form_widget(form.images, { 'attr': {'class': 'single-input', 'onchange': 'previewImages(event)' }, 'multiple': 'multiple' }) }}
+    {{ form_errors(form.images) }}
+    <div id="imagePreview"></div>
+</div>
+<br>
+<div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn_3">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_annonce_indexfront') }}" class="btn_3 ml-3">Back to List</a>
+    </div>
+
+{{ form_end(form) }}
+
+<script>
+function previewImages(event) {
+    var output = document.getElementById('imagePreview');
+    output.innerHTML = '';
+    for (var i = 0; i < event.target.files.length; i++) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            output.innerHTML += '<img src="' + reader.result + '" style="max-width: 150px; max-height: 150px;">';
+        }
+        reader.readAsDataURL(event.target.files[i]);
+    }
+}
+</script>

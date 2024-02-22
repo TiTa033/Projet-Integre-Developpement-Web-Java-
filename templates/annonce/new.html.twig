@@ -1,0 +1,11 @@
+{% extends 'basebackoffice.html.twig' %}
+
+{% block product %}
+    <h1>Create new Annonce</h1>
+
+    {{ include('annonce/_form.html.twig') }}
+
+    <a href="{{ path('app_annonce_index') }}">back to list</a>
+{% endblock %}
+
+

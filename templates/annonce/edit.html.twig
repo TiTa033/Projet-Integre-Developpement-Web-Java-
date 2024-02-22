@@ -1,0 +1,13 @@
+{% extends 'basebackoffice.html.twig' %}
+
+{% block product %}
+
+    <h1>Edit Annonce</h1>
+
+    {{ include('annonce/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_annonce_index') }}">back to list</a>
+
+    {{ include('annonce/_delete_form.html.twig') }}
+
+{% endblock %}

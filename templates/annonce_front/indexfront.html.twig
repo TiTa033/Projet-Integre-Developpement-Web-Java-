@@ -1,0 +1,25 @@
+{% extends 'basefrontoffice.html.twig' %}
+
+{% block product %}
+   <div class="row align-items-center latest_product_inner">
+    {% for annonce in annonces|reverse %}
+        <div class="col-lg-4 col-sm-6" style="margin-right: px; margin-left: px">
+            <div class="single_product_item" >
+                {% if annonce.images|length > 0 %}
+                    {% set firstImage = annonce.images.first %}
+                    <img src="{{ asset('uploads/images/' ~ firstImage.filename) }}" alt="Annonce Image">
+                {% else %}
+                    No image available
+                {% endif %}
+                <div class="single_product_text">
+                    <p>{{ annonce.datePub ? annonce.datePub|date('d-m-Y H:i') : '' }}</p>
+                    <h4>{{ annonce.titre }}</h4>
+                    <h3>{{ annonce.etat }}</h3>
+                    <a href="{{ path('app_annonce_showfront', {'id': annonce.id}) }}"> Show </a>
+                    <a href="{{ path('app_annonce_editfront', {'id': annonce.id}) }}"> Edit </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

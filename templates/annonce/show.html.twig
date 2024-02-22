@@ -1,0 +1,52 @@
+{% extends 'basebackoffice.html.twig' %}
+
+
+
+{% block product %}
+    <h1>Annonce</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ annonce.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ annonce.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ annonce.description }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ annonce.categorie }}</td>
+            </tr>
+            <tr>
+                <th>Condition</th>
+                <td>{{ annonce.etat }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ annonce.localisation }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ annonce.datePub ? annonce.datePub|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            {% if annonce.imageFilename %}
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/images/' ~ annonce.imageFilename) }}" alt="Annonce Image"></td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annonce_index') }}" class="btn btn-primary">Back to list</a>
+
+   {# <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}"class="btn icon icon-left btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> edit</a> #}
+
+    <a {{ include('annonce/_delete_form.html.twig') }}
+{% endblock %}
