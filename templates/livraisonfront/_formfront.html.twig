@@ -1,28 +1,25 @@
 {{ form_start(form) }}
-    <div>
+
+   <div>
         {{ form_label(form.Statut) }}
-        {{ form_widget(form.Statut, {'attr': {'class': 'form-control'}}) }}
+       {{ form_widget(form.Statut, {'attr': {'class': 'form-control', 'id': 'disabledInput', 'placeholder': 'Not Available Yet', 'disabled': true}}) }}
+
     </div>
+   
+   
     <div>
         {{ form_label(form.Adresse) }}
         {{ form_widget(form.Adresse, {'attr': {'class': 'form-control'}}) }}
     </div>
-    <div>
-        {{ form_label(form.Cout) }}
-        {{ form_widget(form.Cout, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div>
-        {{ form_label(form.Methode) }}
-        {{ form_widget(form.Methode, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div>
-        {{ form_label(form.Date) }}
-        {{ form_widget(form.Date, {'attr': {'class': 'form-control'}}) }}
-    </div>
+
     <div>
         {{ form_label(form.Commentaires) }}
         {{ form_widget(form.Commentaires, {'attr': {'class': 'form-control'}}) }}
     </div>
+    <div>
+        {{ form_label(form.type) }}
+        {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+    </div>
     <br>
-    <button type="submit" class="genric-btn info"">Save</button>
+    <button type="submit" class="btn_1">Update</button>
 {{ form_end(form) }}

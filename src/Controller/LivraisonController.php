@@ -30,6 +30,9 @@ class LivraisonController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Set the 'dure' and 'cout' properties based on the submitted 'type' value
+            $livraison->setDureAndCoutBasedOnType();
+
             $entityManager->persist($livraison);
             $entityManager->flush();
 

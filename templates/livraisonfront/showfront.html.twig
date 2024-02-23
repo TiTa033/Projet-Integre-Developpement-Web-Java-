@@ -33,11 +33,11 @@
             </tr>
             <tr>
                 <th>Methode</th>
-                <td>{{ livraison.Methode }}</td>
+                <td>{{ livraison.dure }}</td>
             </tr>
             <tr>
                 <th>Date</th>
-                <td>{{ livraison.Date }}</td>
+                <td>{{ livraison.Date.format('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
                 <th>Commentaires</th>
@@ -53,8 +53,8 @@
 <div class="btn-group mb-3" role="group" aria-label="Basic example">
                            
                              
-                            <a href="{{ path('app_livraisonfront_edit', {'id': livraison.id}) }}" class="genric-btn info-border circle">Edit</a>
-                           
+                            <a href="{{ path('app_livraisonfront_edit', {'id': livraison.id}) }}" class="btn_1">Edit</a>
+                            
                         </div>
                        
                           {{ include('livraisonfront/_delete_formfront.html.twig') }}
@@ -71,3 +71,5 @@
  
  
  {% endblock %}
+
+

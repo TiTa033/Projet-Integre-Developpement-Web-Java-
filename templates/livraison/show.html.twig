@@ -1,51 +1,55 @@
 {% extends 'BaseBackOffice.html.twig' %}
 
-
-
 {% block content %}
-    <h1>Livraison</h1>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Livraison Details</h3>
+    </div>
+    <div class="card-content">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="{{ path('app_livraison_index') }}" class="btn btn-primary">Back to List</a>
+                <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}" class="btn btn-outline-primary">Edit</a>
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ livraison.id }}</td>
-            </tr>
-            <tr>
-                <th>Statut</th>
-                <td>{{ livraison.Statut }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ livraison.Adresse }}</td>
-            </tr>
-            <tr>
-                <th>Cout</th>
-                <td>{{ livraison.Cout }}</td>
-            </tr>
-            <tr>
-                <th>Methode</th>
-                <td>{{ livraison.Methode }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ livraison.Date }}</td>
-            </tr>
-            <tr>
-                <th>Commentaires</th>
-                <td>{{ livraison.Commentaires }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ livraison.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ livraison.Statut }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ livraison.Adresse }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cost</th>
+                        <td>{{ livraison.Cout }}</td>
+                    </tr>
+                    <tr>
+                        <th>Duration</th>
+                        <td>{{ livraison.dure }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td>{{ livraison.Date.format('Y-m-d H:i:s') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Comments</th>
+                        <td>{{ livraison.Commentaires }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-    
-    
-      
-         
-<div class="btn-group mb-3" role="group" aria-label="Basic example">
-                           <a href="{{ path('app_livraison_index') }}" class="btn btn-secondary">back to list</a>
-                             <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}" class="btn btn-secondary">edit</a>
-                            {{ include('livraison/_delete_form.html.twig') }}
-                        </div>
+            <div>
+                {{ include('livraison/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

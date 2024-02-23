@@ -1,9 +1,37 @@
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
+<div class="form-group">
+    {{ form_label(form.Adresse, 'Address', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    <div class="col-sm-10">
+        {{ form_widget(form.Adresse, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
 
+<div class="form-group">
+    {{ form_label(form.Statut, 'Status', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    <div class="col-sm-10">
+        {{ form_widget(form.Statut, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
 
-{{ form_start(form) }}
-    <br>
-    {{ form_widget(form) }}
-    <button class="btn btn-secondary">{{ button_label|default('Save') }}</button>
+<div class="form-group">
+    {{ form_label(form.Commentaires, 'Comments', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    <div class="col-sm-10">
+        {{ form_widget(form.Commentaires, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(form.type, 'Type', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    <div class="col-sm-10">
+        {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</div>
 
 {{ form_end(form) }}

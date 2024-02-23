@@ -1,49 +1,48 @@
 {% extends 'BaseBackOffice.html.twig' %}
 
-{% block title %}Livraison index{% endblock %}
-
 {% block content %}
-    <h1>Livraison index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Statut</th>
-                <th>Adresse</th>
-                <th>Cout</th>
-                <th>Methode</th>
-                <th>Date</th>
-                <th>Commentaires</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for livraison in livraisons %}
-            <tr>
-                <td>{{ livraison.id }}</td>
-                <td>{{ livraison.Statut }}</td>
-                <td>{{ livraison.Adresse }}</td>
-                <td>{{ livraison.Cout }}</td>
-                <td>{{ livraison.Methode }}</td>
-                <td>{{ livraison.Date }}</td>
-                <td>{{ livraison.Commentaires }}</td>
-                <td>
-                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}"class="btn btn-primary rounded-pill">show</a>
-                    
-                  
-                   
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    
-    <br>
-    <br>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Deliveries List</h3>
+    </div>
+    <div class="card-content">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Address</th>
+                        <th>Cost</th>
+                        <th>Duration</th>
+                        <th>Date</th>
+                        <th>Comments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livraison in livraisons %}
+                    <tr>
+                        <td>{{ livraison.id }}</td>
+                        <td>{{ livraison.Statut }}</td>
+                        <td>{{ livraison.Adresse }}</td>
+                        <td>{{ livraison.Cout }}</td>
+                        <td>{{ livraison.dure }}</td>
+                        <td>{{ livraison.Date.format('Y-m-d H:i:s') }}</td>
+                        <td>{{ livraison.Commentaires }}</td>
+                        <td>
+                            <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}" class="btn btn-primary rounded-pill" role="button">Show</a>
+                            <!-- Add other action buttons here if needed -->
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8">No records found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

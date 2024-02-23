@@ -1,0 +1,18 @@
+
+
+
+
+
+{{ form_start(form) }}
+    <div>
+        {{ form_label(form.Immatriculation) }}
+        {{ form_widget(form.Immatriculation, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div>
+        {{ form_label(form.Status) }}
+        {{ form_widget(form.Status, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <br>
+    <button type="submit" class="btn btn-primary">Save</button>
+{{ form_end(form) }}
