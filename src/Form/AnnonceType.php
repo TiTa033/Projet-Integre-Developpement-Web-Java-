@@ -9,12 +9,27 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Categories;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class AnnonceType extends AbstractType
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $categories = $this->entityManager->getRepository(Categories::class)->findAll();
+        
+        $choices = [];
+        foreach ($categories as $category) {
+            $choices[$category->getCategory()] = $category->getCategory();
+        }
+
         $builder
             ->add('titre', null, [
                 'constraints' => [
@@ -30,18 +45,11 @@ class AnnonceType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('categorie', ChoiceType::class, [
-                'choices' => [
-                    'Apparel and Fashion' => 'Apparel and Fashion',
-                    'Books and Media' => 'Books and Media',
-                    'Electronics' => 'Electronics',
-                    'Health and Beauty' => 'Health and Beauty',
-                    'Home and Kitchen' => 'Home and Kitchen',
-                    'School Supplies' => 'School supplies',
-                    'Sports and Outdoors' => 'Sports and Outdoors',
-                    'Other' => 'other',
-                ],
+            ->add('category', ChoiceType::class, [
+                'choices' => $categories,
                 'placeholder' => 'Choose a category',
+                'choice_label' => 'category', // Use the 'category' property as the choice label
+                'choice_value' => 'id', // Use the 'id' property as the choice value
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'Please choose a category for your item',

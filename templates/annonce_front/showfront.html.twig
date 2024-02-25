@@ -7,7 +7,7 @@
             {% if annonce.images|length > 0 %}
                 <tr>
                     <th>Images</th>
-                    <td>
+                    <td class="image-container">
                         {% for image in annonce.images %}
                             <img src="{{ asset('uploads/images/' ~ image.filename) }}" alt="Annonce Image">
                         {% endfor %}
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <th>Category</th>
-                <td>{{ annonce.categorie }}</td>
+                <td>{{ annonce.category.category }}</td>
             </tr>
             <tr>
                 <th>Condition</th>
@@ -49,9 +49,9 @@
     
     <table>
         <tr>
-            <td><a href="{{ path('app_annonce_indexfront') }}" class="btn_3" style="width: 100%"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to List</a></td>
+            <td><a href="{{ path('app_annonce_indexfront') }}" class="btn_3" style="width: 100%"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a></td>
             <td></td>
-            <td><a href="{{ path('app_annonce_editfront', {'id': annonce.id}) }}" class="btn_3" style="width: 100%"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
+            <td><a href="{{ path('app_annonce_editfront', {'id': annonce.id}) }}" class="btn_3" style="width: 100%"><i class="fas fa-pen" aria-hidden="true"></i></a></td>
             <td></td>
             <td>
                 {% include 'annonce_front/_delete_formfront.html.twig' %}
@@ -79,7 +79,7 @@
 
         {{ form_start(commentForm) }}
         {{ form_row(commentForm.content, { 'attr': {'class': 'single-textarea'} }) }}
-        <button type="submit" class="btn_3"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+        <button type="submit" class="btn_3"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
         {{ form_end(commentForm) }}
     </div>
 

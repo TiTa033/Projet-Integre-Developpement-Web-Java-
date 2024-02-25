@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Categories;
 use App\Entity\Comment;
 use App\Entity\ImageAnnonce;
 use App\Form\AnnonceType;
 use App\Form\CommentType;
 use App\Form\ReplyType;
 use App\Repository\AnnonceRepository;
+use App\Repository\CategoriesRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,15 +28,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 class AnnonceFrontController extends AbstractController
 {
     #[Route('/', name: 'app_annonce_indexfront', methods: ['GET'])]
-    public function index(AnnonceRepository $annonceRepository): Response
+    public function index(AnnonceRepository $annonceRepository, CategoriesRepository $categoriesRepository): Response
     {
         return $this->render('annonce_front/indexfront.html.twig', [
             'annonces' => $annonceRepository->findAll(),
+            'categories' => $categoriesRepository->findAll(),
         ]);
     }
-
+    
     #[Route('/new', name: 'app_annonce_newfront', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CategoriesRepository $categoriesRepository): Response
     {
         $annonce = new Annonce();
         $annonce->setDatePub(new \DateTime());
@@ -42,6 +45,9 @@ class AnnonceFrontController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $selectedCategory = $form->get('category')->getData(); 
+            $annonce->setCategory($selectedCategory);
             $imageFiles = $form->get('images')->getData();
         
             foreach ($imageFiles as $imageFile) {
@@ -99,46 +105,58 @@ class AnnonceFrontController extends AbstractController
             'commentForm' => $commentForm->createView(),
         ]);
     }
-
-
+    
     #[Route('/{id}/edit', name: 'app_annonce_editfront', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Annonce $annonce, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Annonce $annonce, EntityManagerInterface $entityManager, CategoriesRepository $categoriesRepository): Response
     {
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFile = $form->get('image')->getData();
-
-            if ($imageFile) {
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
-
-                try {
-                    $imageFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-
+            $selectedCategory = $form->get('category')->getData(); 
+            $annonce->setCategory($selectedCategory);
+    
+            // Check if new images are uploaded
+            $newImages = $form->get('images')->getData();
+    
+            if (!empty($newImages)) {
+                // Remove all existing images
+                foreach ($annonce->getImages() as $image) {
+                    $entityManager->remove($image);
                 }
-
-                if ($annonce->getImageFilename()) {
-                    unlink($this->getParameter('images_directory').'/'.$annonce->getImageFilename());
+            
+                // Handle uploading and adding new images
+                foreach ($newImages as $imageFile) {
+                    if ($imageFile instanceof UploadedFile) {
+                        $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                
+                        try {
+                            $imageFile->move(
+                                $this->getParameter('images_directory'),
+                                $newFilename
+                            );
+                            // Store image filename in entity
+                            $image = new ImageAnnonce();
+                            $image->setFilename($newFilename);
+                            $annonce->addImage($image);
+                        } catch (FileException $e) {
+                            // Handle error
+                        }
+                    }
                 }
-
-                $annonce->setImageFilename($newFilename);
             }
-
+    
             $entityManager->flush();
-
+            
             return $this->redirectToRoute('app_annonce_indexfront', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('annonce_front/editfront.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
         ]);
     }
+
     #[Route('/{id}/delete', name: 'app_annonce_deletefront', methods: ['POST'])]
     public function delete(Request $request, Annonce $annonce, EntityManagerInterface $entityManager, CommentRepository $commentRepository): Response
     {

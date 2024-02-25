@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Categories;
 use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,9 +23,6 @@ class Annonce
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $categorie = null;
 
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
@@ -83,17 +81,6 @@ class Annonce
         return $this;
     }
 
-    public function getCategorie(): ?string
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(string $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
 
     public function getEtat(): ?string
     {

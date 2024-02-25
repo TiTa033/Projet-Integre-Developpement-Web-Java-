@@ -5,6 +5,10 @@ namespace App\Controller;
 use App\Entity\Annonce;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
+use App\Entity\ImageAnnonce;
+use App\Entity\Comment;
+use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,11 +49,9 @@ class AnnonceController extends AbstractController
                     $newFilename
                 );
             } catch (FileException $e) {
-                // Handle exception if something goes wrong during file upload
-                // e.g., display an error message to the user
+  
             }
             
-            // Update the 'imageFilename' property of the 'Annonce' entity
             $annonce->setImageFilename($newFilename);
         }
             $entityManager->persist($annonce);
@@ -64,11 +66,28 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_annonce_show', methods: ['GET'])]
-    public function show(Annonce $annonce): Response
+    #[Route('/{id}', name: 'app_annonce_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, Annonce $annonce, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response
     {
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setAnnonce($annonce);
+            $comment->setCreationDate(new \DateTime());
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_annonce_show', ['id' => $annonce->getId()]);
+        }
+
+        $comments = $commentRepository->findBy(['annonce' => $annonce]);
+
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
+            'comments' => $comments,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 
@@ -79,13 +98,13 @@ public function edit(Request $request, Annonce $annonce, EntityManagerInterface 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Handle image upload
+        
         /** @var UploadedFile $imageFile */
         $imageFile = $form->get('image')->getData();
-
+        
         if ($imageFile) {
             $newFilename = uniqid().'.'.$imageFile->guessExtension();
-
+            
             // Move the file to the directory where images are stored
             try {
                 $imageFile->move(
@@ -93,19 +112,11 @@ public function edit(Request $request, Annonce $annonce, EntityManagerInterface 
                     $newFilename
                 );
             } catch (FileException $e) {
-                // Handle exception if something goes wrong during file upload
-                // e.g., display an error message to the user
+  
             }
-
-            // Delete the old image file, if it exists
-            if ($annonce->getImageFilename()) {
-                unlink($this->getParameter('images_directory').'/'.$annonce->getImageFilename());
-            }
-
-            // Update the 'imageFilename' property of the 'Annonce' entity
+            
             $annonce->setImageFilename($newFilename);
         }
-
         $entityManager->flush();
 
         return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
@@ -118,14 +129,22 @@ public function edit(Request $request, Annonce $annonce, EntityManagerInterface 
 }
 
 
-    #[Route('/{id}', name: 'app_annonce_delete', methods: ['POST'])]
-    public function delete(Request $request, Annonce $annonce, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($annonce);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
+#[Route('/{id}/delete', name: 'app_annonce_delete', methods: ['POST'])]
+public function delete(Request $request, Annonce $annonce, EntityManagerInterface $entityManager, CommentRepository $commentRepository): Response
+{
+    // Delete associated comments first
+    $comments = $commentRepository->findBy(['annonce' => $annonce]);
+    foreach ($comments as $comment) {
+        $entityManager->remove($comment);
     }
+    $entityManager->flush();
+
+    // Now delete the Annonce record
+    if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->request->get('_token'))) {
+        $entityManager->remove($annonce);
+        $entityManager->flush();
+    }
+
+    return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
+}
 }

@@ -1,7 +1,7 @@
 {% extends 'basefrontoffice.html.twig' %}
 {% block categories %}
 
-{% for category in categories %}
+{% for category in category %}
                 <li>
                      <a href="{{ path('app_showAnnonceParCategory', {'id': category.id}) }}">{{category.category}}</a>
                 </li>

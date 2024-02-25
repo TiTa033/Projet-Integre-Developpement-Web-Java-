@@ -14,10 +14,10 @@
     {% endif %}
 </div>
 <div class="mt-10">
-    {{ form_label(form.categorie, 'Categorie') }}
-    {{ form_widget(form.categorie, { 'attr': {'class': 'single-input','style': 'height: 45px;'} }) }}
-    {% if form_errors(form.categorie) %}
-    <div class="alert alert-danger">{{ form_errors(form.categorie) }}</div>
+    {{ form_label(form.category, 'Category') }}
+    {{ form_widget(form.category, { 'attr': {'class': 'single-input','style': 'height: 45px;'} }) }}
+    {% if form_errors(form.category) %}
+    <div class="alert alert-danger">{{ form_errors(form.category) }}</div>
     {% endif %}
 </div>
 <div class="mt-10">
@@ -42,8 +42,9 @@
 </div>
 <br>
 <div class="d-flex justify-content-center mt-3">
-        <button type="submit" class="btn_3">{{ button_label|default('Save') }}</button>
-        <a href="{{ path('app_annonce_indexfront') }}" class="btn_3 ml-3">Back to List</a>
+        <a href="{{ path('app_annonce_indexfront') }}" class="btn_3 ml-3"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
+
+        <button type="submit" class="btn_3"><i class="fa fa-save"></i></button>
     </div>
 
 {{ form_end(form) }}

@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th>Category</th>
-                <td>{{ annonce.categorie }}</td>
+                <td>{{ annonce.category.category }}</td>
             </tr>
             <tr>
                 <th>Condition</th>
@@ -35,14 +35,39 @@
                 <th>Date</th>
                 <td>{{ annonce.datePub ? annonce.datePub|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
-            {% if annonce.imageFilename %}
-            <tr>
-                <th>Image</th>
-                <td><img src="{{ asset('uploads/images/' ~ annonce.imageFilename) }}" alt="Annonce Image"></td>
-            </tr>
+            {% if annonce.images|length > 0 %}
+                <tr>
+                    <th>Images</th>
+                    <td class="image-container">
+                        {% for image in annonce.images %}
+                            <img src="{{ asset('uploads/images/' ~ image.filename) }}" alt="Annonce Image">
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <th>Images</th>
+                    <td>No images available</td>
+                </tr>
             {% endif %}
         </tbody>
     </table>
+    
+    <ul class="comments-list">
+        {% if comments|length > 0 %}
+            {% for comment in comments %}
+                <li class="comment-container">
+                    <div class="comment-bubble">
+                        <p class="comment-content">{{ comment.content }}</p>
+                        <small class="comment-date">Posted on {{ comment.creationDate ? comment.creationDate|date('Y-m-d H:i') : 'Unknown' }}</small>
+                    </div>
+                </li>
+            {% endfor %}
+
+            {% else %}
+                <li>No comments available</li>
+            {% endif %}
+        </ul>
 
     <a href="{{ path('app_annonce_index') }}" class="btn btn-primary">Back to list</a>
 

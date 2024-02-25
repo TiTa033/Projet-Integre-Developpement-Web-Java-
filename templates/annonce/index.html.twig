@@ -29,11 +29,12 @@
                     <td>{{ annonce.localisation }}</td>
                     <td>{{ annonce.datePub ? annonce.datePub|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
-                        {% if annonce.imageFilename %}
-                            <img src="{{ asset('uploads/images/' ~ annonce.imageFilename) }}" alt="Annonce Image" style="max-width: 100px;">
-                        {% else %}
-                            No image available
-                        {% endif %}
+                    {% if annonce.images|length > 0 %}
+                    {% set firstImage = annonce.images.first %}
+                    <img src="{{ asset('uploads/images/' ~ firstImage.filename) }}" alt="Annonce Image" style="max-width: 100px;">
+                {% else %}
+                    No image available
+                {% endif %}
                     </td>
                     <td>
                      <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}" class="btn btn-primary"> Show </a>
