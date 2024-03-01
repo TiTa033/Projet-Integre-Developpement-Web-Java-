@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Events List</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrap">
+                    <table class="table table-bordered table-striped table-hover">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">Event Name</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Start Date</th>
+                          <th scope="col">End Date</th>
+                          <th scope="col">Location</th>
+                          <th scope="col">Status</th>
+                          <th scope="col">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for event in events %}
+                        <tr>
+                          <td>{{ event.name }}</td>
+                          <td>{{ event.description|slice(0, 50) ~ '...' }}</td>
+                          <td>{{ event.startDate|date('Y-m-d H:i') }}</td>
+                          <td>{{ event.endDate|date('Y-m-d H:i') }}</td>
+                          <td>{{ event.location }}</td>
+                          <td>
+                              <span class="badge badge-pill badge-{{ event.status|lower }}">{{ event.status }}</span>
+                          </td>
+                          <td class="action-buttons">
+                              <a href="{{ path('event_accept', {'id': event.id}) }}" class="btn btn-success btn-sm">Accept</a>
+                                <a href="{{ path('event_decline', {'id': event.id}) }}" class="btn btn-warning">Decline</a>
+                              <a href="" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                          </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center">No events found</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Adjust the space between buttons */
+    }
+
+    .badge-pending {
+        background-color: #FFA500; /* Orange for pending */
+    }
+
+    .badge-accepted {
+        background-color: #28a745; /* Green for accepted, Bootstrap green */
+    }
+
+    .badge-declined {
+        background-color: #dc3545; /* Red for declined, Bootstrap red */
+    }
+</style>
+</section>
+
+{% endblock %}

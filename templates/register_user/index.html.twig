@@ -1,0 +1,184 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}" />    
+    <title>Sign in & Sign up Form</title>
+</head>
+<body>
+
+
+
+
+<div class="container">
+    <div class="forms-container">
+        <div class="signin-signup">
+<style>
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+    width: calc(50% - 5px);
+    position: relative;
+    margin-bottom: 30px; /* Increased space for error messages */
+}
+
+.input-field i {
+    position: absolute;
+    left: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding-left: 30px;
+}
+
+.error-message {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 95%;
+    font-size: 0.9em;
+    display: none; /* Initially hidden */
+    position: absolute;
+    left: 5%;
+    top: 100%;
+}
+
+.input-field.error .error-message {
+    display: block; /* Show only when there's an error */
+}
+
+.input-field.error input,
+.input-field.error select,
+.input-field.error textarea {
+    border: 2px solid red;
+    box-shadow: 0 0 3px red;
+}
+
+.input-field.error i {
+    color: red;
+}
+
+.input-field:last-child {
+    margin-right: 0;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.input-field:not(:last-child) {
+    margin-right: 10px;
+}
+
+.captcha-label {
+      position: static; /* Use static or adjust positioning as needed */
+    margin-top: 200px; /* Adjust based on your layout */
+    left: 35px;
+    top: 0;
+}
+
+.captcha-container {
+    width: 100%;
+    position: relative; /* Ensure captcha is positioned within its container */
+}
+
+.captcha-container .form-control,
+.captcha-container img {
+    width: 100%; /* Ensure captcha input and image span the full width of their container */
+    margin-bottom: 50px; /* Add some space above the captcha input/image */
+}
+</style>
+
+
+<form method="post" enctype="multipart/form-data">
+    {{ form_start(form, {'attr': {'enctype':'multipart/form-data'}}) }}
+    <h2 class="title">Sign up</h2>
+
+    <!-- Row for First Name and Last Name -->
+    <div class="row">
+        <div class="input-field {{ form_errors(form.firstName) ? 'error' : '' }}">
+            <i class="fas fa-user"></i>
+            {{ form_widget(form.firstName, { 'attr': {'class': 'form-control', 'placeholder': 'First name' } }) }}
+            <div class="error-message">{{ form_errors(form.firstName) }}</div>
+        </div>
+
+        <div class="input-field {{ form_errors(form.lastName) ? 'error' : '' }}">
+            <i class="fas fa-user"></i>
+            {{ form_widget(form.lastName, { 'attr': {'class': 'form-control', 'placeholder': 'Last name' } }) }}
+            <div class="error-message">{{ form_errors(form.lastName) }}</div>
+        </div>
+    </div>
+
+    <!-- Row for Date of Birth and Password -->
+    <div class="row">
+        <div class="input-field {{ form_errors(form.dateOfBirth) ? 'error' : '' }}">
+            <i class="fas fa-calendar-alt"></i>
+            {{ form_widget(form.dateOfBirth, { 'attr': {'class': 'form-control', 'type': 'date' } }) }}
+            <div class="error-message">{{ form_errors(form.dateOfBirth) }}</div>
+        </div>
+
+        <div class="input-field {{ form_errors(form.plainPassword.first) ? 'error' : '' }}">
+            <i class="fas fa-lock"></i>
+            {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control', 'placeholder': 'Password' } }) }}
+            <div class="error-message">{{ form_errors(form.plainPassword.first) }}</div>
+        </div>
+    </div>
+
+    <!-- Row for Confirm Password and Email -->
+    <div class="row">
+        <div class="input-field {{ form_errors(form.plainPassword.second) ? 'error' : '' }}">
+            <i class="fas fa-lock"></i>
+            {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control', 'placeholder': 'Confirm Password' } }) }}
+            <div class="error-message">{{ form_errors(form.plainPassword.second) }}</div>
+        </div>
+
+        <div class="input-field {{ form_errors(form.email) ? 'error' : '' }}">
+            <i class="fas fa-envelope"></i>
+            {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': 'Email' } }) }}
+            <div class="error-message">{{ form_errors(form.email) }}</div>
+        </div>
+    </div>
+
+    <!-- Row for Profile Picture and Captcha Code -->
+    <div class="row">
+        <div class="input-field {{ form_errors(form.profilePicture) ? 'error' : '' }}">
+            <i class="fas fa-image"></i>
+            {{ form_widget(form.profilePicture, { 'attr': {'class': 'form-control'} }) }}
+            <div class="error-message">{{ form_errors(form.profilePicture) }}</div>
+        </div>
+
+        <div class="input-field {{ form_errors(form.captchaCode) ? 'error' : '' }}">
+            <div class="captcha-container">
+
+            {{ form_widget(form.captchaCode, {'attr': {'class': 'form-control', 'placeholder': "Type captcha code "}}) }}
+            </div>
+            <div class="error-message">{{ form_errors(form.captchaCode) }}</div>
+        </div>
+    </div>
+
+    <!-- Register Button -->
+    {{ form_widget(form.Register, { 'attr': {'class': 'btn solid' } }) }}
+    {{ form_row(form._token) }}
+    {{ form_end(form) }}
+</form>
+
+
+
+           
+           
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

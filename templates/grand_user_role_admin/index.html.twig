@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'DataTable' %}
+
+{% block body %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrap">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Firstname & Lastname</th>
+                                <th>email</th>
+                                <th>Birthdate</th>
+                                <th>Ban account</th>
+                                <th>Add Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in listUsers %}
+                            <tr> <!-- Ensure each user's data starts with a <tr> tag -->
+                                <td class="align-middle text-center text-sm">
+                                    <span class="text-xs text-secondary mb-0">{{ i.firstName ~ ' ' ~ i.lastName }}</span>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="text-xs text-secondary mb-0">{{ i.email }}</span>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="text-xs text-secondary mb-0">{{ i.dateOfBirth | date('d/m/Y') }}</span>
+                                </td>
+                                <td class="align-middle">
+                                    {% if i.isDeleted == 0 %}
+                                        <a class="text-primary font-weight-bold text-xs-center" href="{{ path('desactivateAccount',{'userId':i.userId}) }}">
+                                            <p class="text-xs font-weight-bold mb-0">Desactivate</p>
+                                        </a>
+                                    {% else %}
+                                        <a class="cursor text-muted font-weight-bold text-xs-center" href="{{ path('activateAccount',{'userId':i.userId}) }}">
+                                            <p class="text-xs font-weight-bold mb-0">Activate</p>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td class="align-middle">
+                                    {% set IsRole_Admin=2 %}
+                                    {% set RoleID= 2 %}
+                                    {% for x in i.role %}
+                                        {% if x.roleName == 'ROLE_ADMIN' %}
+                                            {% set RoleID= x.roleId %}
+                                            {% set IsRole_Admin=3 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if IsRole_Admin == 2 %}
+                                        <a class="text-primary font-weight-bold text-xs-center" href="{{ path('AddRole',{'rid':5,'userId':i.userId}) }}">
+                                            Add Role
+                                        </a>
+                                    {% else %}
+                                        <a class="cursor text-muted font-weight-bold text-xs-center"  href="{{ path('RemoveRole',{'rid':RoleID,'userId':i.userId}) }}">
+                                            Remove Role
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td><a href="#" class="btn btn-success">Progress</a></td>
+                            </tr> <!-- Close the <tr> tag here -->
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

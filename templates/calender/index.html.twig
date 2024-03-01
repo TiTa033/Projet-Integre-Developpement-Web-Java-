@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event Calendar{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css' rel='stylesheet' />
+<style>
+    #calendar-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 10px;
+    }
+
+    .fc-header-toolbar {
+        /* Adjust the calendar header */
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+    .fc-button-primary {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+
+    .fc-button-primary:not(:disabled):hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .fc-event, .fc-event-dot {
+        /* Style for the events */
+        background-color: #28a745;
+        border-color: #28a745;
+        color: #fff;
+    }
+
+    .fc-day-today {
+        background-color: #e0e7ff;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="calendar-container">
+    <h1>Event Calendar</h1>
+    <div id="calendar"></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        eventSources: [{
+            url: '{{ path("calendar_load_events") }}',
+            method: 'POST',
+            extraParams: {
+                filters: JSON.stringify({})
+            },
+            failure: () => {
+                alert('There was an error while fetching events!');
+            },
+        }],
+        eventColor: '#378006',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token('fetch-events') }}'
+        }
+    });
+    calendar.render();
+});
+</script>
+{% endblock %}
